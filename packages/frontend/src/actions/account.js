@@ -27,7 +27,6 @@ import {
     handleGetLockup,
     staking
 } from './staking';
-import { tokens } from './tokens';
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
@@ -459,7 +458,6 @@ export const finishAccountSetup = () => async (dispatch, getState) => {
     await dispatch(refreshAccount());
     await dispatch(getBalance());
     await dispatch(staking.clearState());
-    dispatch(tokens.clearState());
     const { balance, url, accountId } = getState().account;
 
     let promptTwoFactor = await TwoFactor.checkCanEnableTwoFactor(balance);
