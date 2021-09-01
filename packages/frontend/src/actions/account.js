@@ -6,6 +6,7 @@ import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
 import nftSlice from '../reducers/nft';
+import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
 import { showAlert, dispatchWithAlert } from '../utils/alerts';
 import { loadState, saveState, clearState } from '../utils/sessionStorage';
 import { TwoFactor } from '../utils/twoFactor';
@@ -21,7 +22,6 @@ import {
     MULTISIG_MIN_PROMPT_AMOUNT
 } from '../utils/wallet';
 import { WalletError } from '../utils/walletError';
-import { handleFlowLimitation, handleClearflowLimitation } from './flowLimitation';
 import {
     handleStakingUpdateAccount,
     handleStakingUpdateLockup,
@@ -29,6 +29,8 @@ import {
     staking
 } from './staking';
 import { tokens } from './tokens';
+
+const { handleFlowLimitation, handleClearflowLimitation } = flowLimitationActions;
 
 export const loadRecoveryMethods = createAction('LOAD_RECOVERY_METHODS',
     wallet.getRecoveryMethods.bind(wallet),
