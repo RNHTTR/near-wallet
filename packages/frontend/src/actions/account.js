@@ -6,7 +6,11 @@ import { parse, stringify } from 'query-string';
 import { createActions, createAction } from 'redux-actions';
 
 import nftSlice from '../reducers/nft';
-import { actions as flowLimitationActions } from '../redux/slices/flowLimitation';
+import { 
+    actions as flowLimitationActions,
+    selectFlowLimitationAccountBalance,
+    selectFlowLimitationAccountData
+} from '../redux/slices/flowLimitation';
 import { showAlert, dispatchWithAlert } from '../utils/alerts';
 import { loadState, saveState, clearState } from '../utils/sessionStorage';
 import { TwoFactor } from '../utils/twoFactor';
@@ -558,17 +562,15 @@ export const { signAndSendTransactions, setSignTransactionStatus, sendMoney, tra
 });
 
 export const refreshAccount = (basicData = false) => async (dispatch, getState) => {
-    const { flowLimitation } = getState();
-
     if (!wallet.accountId) {
         return;
     }
 
     dispatch(setLocalStorage(wallet.accountId));
-    await dispatch(refreshAccountOwner(flowLimitation.accountData));
+    await dispatch(refreshAccountOwner(selectFlowLimitationAccountData(getState())));
 
-    if (!basicData && !flowLimitation.accountBalance) {
-        dispatch(getBalance('', flowLimitation.accountData));
+    if (!basicData && !selectFlowLimitationAccountBalance(getState())) {
+        dispatch(getBalance('', selectFlowLimitationAccountData(getState())));
     }
 };
 
