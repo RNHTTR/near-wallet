@@ -41,11 +41,17 @@ export default function Validator({
                 />
                 : null
             }
-            <h1><Translate id='staking.validator.title' data={{ validator: match.params.validator }}/></h1>
+            <h1 data-test-id="validatorNamePageTitle">
+                <Translate
+                    id="staking.validator.title"
+                    data={{ validator: match.params.validator }}
+                />
+            </h1>
             <FormButton 
                 linkTo={`/staking/${match.params.validator}/stake`} 
                 disabled={(stakeNotAllowed || !validator) ? true : false}
                 trackingId="STAKE Click stake with validator button"
+                data-test-id="validatorPageStakeButton"
             >
                 <Translate id='staking.validator.button' />
             </FormButton>
